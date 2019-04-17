@@ -42,7 +42,7 @@ class WebSockets {
   /* List of methods to be called when a new message*/
   /* comes in. */
 
- ObserverList<Function> _listener = new ObserverList<Function>();
+ //ObserverList<Function> _listener = new ObserverList<Function>();
 
   /* Initializint the web socket connection */
 
