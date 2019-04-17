@@ -37,7 +37,13 @@ class WebSockets {
       }
     }
   }
-  
+
+  /* Listener */
+  /* List of methods to be called when a new message*/
+  /* comes in. */
+
+ ObserverList<Function> _listener = new ObserverList<Function>();
+
   /* Initializint the web socket connection */
 
   initCommunication(vertexUrl) async {
@@ -56,14 +62,26 @@ class WebSockets {
   /* Send message to the vertex*/
   sendMessage(message){
     if(_channel != null){      
-      if(_channel.sink != null){
+      if(_channel.sink != null ){
         print("Sending Messsage::" + message);
         _channel.sink.add(json.encode(message));
-        _channel.stream.listen(_onIncomingMessage);
       }
     }
   }
   
+/*
+/*Listenes for incomming message from server */
+  addListener(Function callback){
+    _listener.add(callback);
+  }
+
+
+/*Remove for message from server */
+  removeListener(Function callback){
+    _listener.remove(callback);
+  }
+*/
+
 /*invoked each time when receiving the incoming message form the server*/
   _onIncomingMessage(message){
     _isOn = true;
