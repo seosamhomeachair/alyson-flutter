@@ -21,7 +21,9 @@ class EventHandler{
       print(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
       socket.initCommunication(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
 
-      sendEvent({event:authInit,sendWithToken: false});
+      socket.sendMessage( 
+         new AuthInit("sas").message() 
+      );
     }
 s
     String __getAccessToken(){
