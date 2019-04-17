@@ -31,8 +31,7 @@ class KeycloakLogin extends State<Login>{
       fetchEnvs();
 
       print(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
-      print("Running Keycloack Login"); 
-
+      print("Initiating Keycloack Login"); 
       getToken();
 
     }
@@ -124,7 +123,6 @@ class KeycloakLogin extends State<Login>{
         
         /* getting json object from */
         makeApiRequest(apiUrl).then((data){
-            print("made already");
 
             /* Looping through and saving the necessary envs value */
             BridgeEnvs.map.forEach((key,val) => {

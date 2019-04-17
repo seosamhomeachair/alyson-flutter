@@ -84,7 +84,6 @@ class DatabaseHelper{
 
 //Insertion returns 1 or 0 i.e. Integer
 
-
 Future<int> saveToken(KeyCloakToken token) async{
 
     return insertInToDB(token, "$tokenTable");

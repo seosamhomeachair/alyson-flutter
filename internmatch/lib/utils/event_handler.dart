@@ -17,11 +17,12 @@ class EventHandler{
 
     initWebSocketConnection() async{
       
-      
-     /* socket.initCommunication(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);*/
       print(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
-    }
+      socket.initCommunication(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
 
+      sendEvent({event:authInit,sendWithToken: false});
+    }
+s
     String __getAccessToken(){
 
       final String token = null;
@@ -40,7 +41,7 @@ class EventHandler{
       : eventObject = event( eventType, data);
 
       print( 'sending event ::' + eventObject.toString() );
-      socket.sendMessage( eventObject );
+      socket.sendMessage( eventObject.message() );
     }
 
     handleIncomingMessage(incomingMessage){
