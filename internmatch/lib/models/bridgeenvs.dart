@@ -18,7 +18,7 @@
     'auth-server-url': authServerUrl,
     'ssl-required' : sslExternal,
     'credentials' : credentialsSecret,
-    'vertex_url' : vertexUrl,
+    'vertx_url' : vertexUrl,
     'api_url' : apiUrl,
     'url' : url,
     'ENV_GENNY_HOST' : ENV_GENNY_HOST,
