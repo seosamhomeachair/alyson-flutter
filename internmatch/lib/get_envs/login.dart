@@ -30,9 +30,7 @@ class KeycloakLogin extends State<Login>{
     void initState()  {
       fetchEnvs();
 
-      print(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
-      print("Initiating Keycloack Login"); 
-      getToken();
+   
 
     }
 
@@ -72,7 +70,7 @@ class KeycloakLogin extends State<Login>{
       print("Webview Resources Disposed...");
     }
 
-    void getToken(){
+    void authKeycloak(){
 
         setState(() {
           _url = BridgeEnvs.ENV_GENNY_INITURL;
@@ -99,7 +97,9 @@ class KeycloakLogin extends State<Login>{
 
       var url = tempInitUrl+"/api/events/init?url="+tempInitUrl;
       //var url = Project.iniURL+"/api/events/init?url="+ Project.iniURL;
-      getEnvFromBridge(url);
+      await getEnvFromBridge(url);
+      print("Initiating Keycloack Login"); 
+      authKeycloak();
     }
 
     /*Saving it to the database */
@@ -122,12 +122,12 @@ class KeycloakLogin extends State<Login>{
         print("Fetching Envs From ::::" + apiUrl);
         
         /* getting json object from */
-        makeApiRequest(apiUrl).then((data){
+        await makeApiRequest(apiUrl).then((data){
 
             /* Looping through and saving the necessary envs value */
             BridgeEnvs.map.forEach((key,val) => {
-              print(key),
               BridgeEnvs.map[key] =  data[key],
+              print("$key :: ${BridgeEnvs.map[key]}")
           });
       });
     }
