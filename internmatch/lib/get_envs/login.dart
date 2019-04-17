@@ -4,171 +4,142 @@ import 'dart:async';
 import 'dart:convert';
 import '../weeklyJournal/home.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import '../models/keycloak_token.dart';
+import '../models/student.dart';
+import '../models/bridgeenvs.dart';
 import '../utils/database_helper.dart';
+
 
 
 class Login extends StatefulWidget{
   @override
   State createState() => new KeycloakLogin();
+
 }
 
-class KeycloakSetting {
-  var _token;
-
-  String get token{
-    return _token;
-  }
-
-  var _url;
-  String get url{
-    return _url;
-  }
-
-  var _bridgeSettings;
-  Map get bridgeSettings{
-    return _bridgeSettings;
-  }
-  var _realmParam;
-  Map get realmParam{
-    return _realmParam;
-  }
-}
+/*Use hardcoded url just for testing purpose*/
+static var tempInitUrl = "https://internmatch.outcome-hub.com";
 
 class KeycloakLogin extends State<Login>{
+ 
+    var _token; 
+    var _flutterWebviewPlugin = new FlutterWebviewPlugin();
+    var _url;
+  
+  //We need to call this function as it initates the State
+    @override
+    void initState()  {
+      fetchEnvs();
 
-// pass token variable in constructor 
-int saveToken;
-  var _flutterWebviewPlugin = new FlutterWebviewPlugin();
-  KeycloakSetting keycloakSetting = new KeycloakSetting();
+      print(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
+      print("Running Keycloack Login"); 
 
-//We need to call this function as it initates the State
-  @override
-  void initState()  {
+      getToken();
 
-    /*fetchEnvs();*/
-    print("Running Keycloack Login");        
-    getToken();
-  }
+    }
 
-  void navigateHome(){
+    @override
+    Widget build(BuildContext context) {
 
-    dispose();
-    print("Navigating to App Home.");
-    Navigator.push(context, new MaterialPageRoute(builder: (context) => new Home(keycloakSetting: this.keycloakSetting)));
-  }
+        if(_url != null){
+          return MaterialApp(
+            routes: {
+              "/":(_) => new WebviewScaffold(
+                url: _url,
+              ),
+            }
+          );
+        }
+        else{
+          return Scaffold(
+            appBar: AppBar(
+            title: new Text('Login Into KeyClock'),
+            ));
+            }
+        }
 
-  void getToken(){
+    void navigateHome(){
+      dispose();
 
-      setState(() {
-        keycloakSetting._url = "https://internmatch.outcome-hub.com/";
-      });
+      print("Navigating to App Home.");
+      Navigator.push(context, new MaterialPageRoute(builder: (context) => new Home(token: _token)));
+    }
 
-      /* listening to eny url change in the browser */
-      _flutterWebviewPlugin.onUrlChanged.listen((String url){
-          print("Reloading page and directing to "+ keycloakSetting._url);
-          RegExp regExp = new RegExp("code=(.*)");
-          String token = regExp.firstMatch(url)?.group(1);
+    /*disposes webviewplugin and webview scaffold*/
+    void dispose(){
 
-        /*   var now = new DateTime.now();
-          if(now.minute == 5) */
+      _flutterWebviewPlugin.close();
+      _flutterWebviewPlugin.dispose();
+      super.dispose();
+      print("Webview Resources Disposed...");
+    }
 
-          if(token != null){
+    void getToken(){
 
-            print("Found Token: saving .....");
-            print("token: "+ token);
-            keycloakSetting._token = token ;
-
-            setState(() {
-                storeTokenInDB(keycloakSetting._token);
-                navigateHome();
-            });
-          }
+        setState(() {
+          _url = BridgeEnvs.ENV_GENNY_INITURL;
         });
-  }
 
+        /* listening to eny url change in the browser */
+        _flutterWebviewPlugin.onUrlChanged.listen((String url){
+            print("Redirecting to "+ _url);
+            RegExp regExp = new RegExp("code=(.*)");
+            String token = regExp.firstMatch(url)?.group(1);
 
+            if(token != null){
+
+              print("Found Token: " + token);
+              _token = token ;
+              //storeInDB(keycloakSetting._token);
+              navigateHome();
+            }
+          });
+    }
+
+    /*fetching envs */
+    void fetchEnvs(){
+
+      var url = tempInitUrl+"/api/events/init?url="+tempInitUrl;
+      //var url = Project.iniURL+"/api/events/init?url="+ Project.iniURL;
+      getEnvFromBridge(url);
+    }
+
+    /*Saving it to the database */
     void storeTokenInDB(String token) async {
 
       var db = new DatabaseHelper();  
-      saveToken = await db.saveToken(new KeyCloakToken("$token"));
-      print("Token entered  $saveToken into Student Table.");
+      _token = await db.saveToken(new KeyCloakToken("$token"));
+      print("Token entered  $_token into Student Table.");
     } 
 
-      void fetchTokenFromDB() async{
+    void fetchTokenFromDB() async{
         var db = new DatabaseHelper();  
         KeyCloakToken tokenFromDB = await db.retrieveToken(1);
         print("Token from DB: ${tokenFromDB.token}");
     }
 
-/* runthis method to fetch all the envs. Will be used at some point in future */
-  void fetchEnvs(){
+  /*getting bridge envs*/
+    getEnvFromBridge(apiUrl){
 
-     getBridgeSettings().then((result){
-        setState(() {
-          keycloakSetting._bridgeSettings = result;
+        print("Fetching Envs From ::::" + apiUrl);
+        
+        /* getting json object from */
+        makeApiRequest(apiUrl).then((data){
+            print("made already");
 
-          getRealmParam().then((result){
-
-            setState(() {
-            keycloakSetting._realmParam = result;
-            keycloakSetting._url =keycloakSetting._realmParam['account-service']; 
-            });
+            /* Looping through and saving the necessary envs value */
+            BridgeEnvs.map.forEach((key,val) => {
+              print(key),
+              BridgeEnvs.map[key] =  data[key],
           });
-        });
-    });
-  }
-
-  /*disposes webviewplugin and webview scaffold*/
-  void dispose(){
-
-    _flutterWebviewPlugin.close();
-    _flutterWebviewPlugin.dispose();
-    super.dispose();
-    print("Webview Resources Disposed...");
-  }
-
-
- @override
-  Widget build(BuildContext context) {
-
-      if(keycloakSetting._url != null){
-
-        return MaterialApp(
-          routes: {
-            "/":(_) => new WebviewScaffold(
-              url: keycloakSetting._url,
-            ),
-          }
-        );
-      }
-      else{
-
-        return Scaffold(
-          appBar: AppBar(
-          title: new Text('Login Into KeyClock'),
-          ));
-          }
-      }
-  
-
-/*getting bridge envs*/
-  Future<Map> getBridgeSettings() async{
-
-      String apiUrl = "https://internmatch.outcome-hub.com/api/events/init?url=https://internmatch.outcome-hub.com";
-      http.Response response= await http.get(apiUrl);
-      print("Fetching Envs From Bridge::::");
-      return json.decode(response.body);
-     }
-
-/*getting keycloack realm and token service url*/
-   Future<Map> getRealmParam() async{
-
-       String url= "${keycloakSetting._bridgeSettings["auth-server-url"]}/realms/${keycloakSetting._bridgeSettings["realm"]}"; 
-       http.Response response= await http.get(url);
-       print("Fetching Envs From " + url + "::::");
-       return json.decode(response.body);
-   }
+      });
+    }
+    
+  /*getting settings url */
+    Future<Map> makeApiRequest(final url) async{
+        http.Response response= await http.get(url);
+        print(response.body);
+        return json.decode(response.body);
+    }
 }
 
 
