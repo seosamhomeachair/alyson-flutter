@@ -14,16 +14,16 @@
     static var ENV_SIGNATURE_URL;
 
     static final Map map= {
-    '_realm': realm,
-    '_authServerUrl': authServerUrl,
-    '_sslExternal' : sslExternal,
-    '_credentialsSecret' : credentialsSecret,
-    '_vertexUrl' : vertexUrl,
-    '_apiUrl' : apiUrl,
-    '_url' : url,
-    '_ENV_GENNY_HOST' : ENV_GENNY_HOST,
-    '_ENV_GENNY_INITURL': ENV_GENNY_INITURL,
-    '_ENV_GENNY_BRIDGE_SERVICE' : ENV_GENNY_BRIDGE_SERVICE,
+    'realm': realm,
+    'auth-server-url': authServerUrl,
+    'ssl-required' : sslExternal,
+    'credentials' : credentialsSecret,
+    'vertex_url' : vertexUrl,
+    'api_url' : apiUrl,
+    'url' : url,
+    'ENV_GENNY_HOST' : ENV_GENNY_HOST,
+    'ENV_GENNY_INITURL': ENV_GENNY_INITURL,
+    'ENV_GENNY_BRIDGE_SERVICE' : ENV_GENNY_BRIDGE_SERVICE,
     'ENV_GENNY_BRIDGE_EVENTS': ENV_GENNY_BRIDGE_EVENTS,
     'ENV_GENNY_BRIDGE_VERTEX': ENV_GENNY_BRIDGE_VERTEX,
     'ENV_SIGNATURE_URL': ENV_SIGNATURE_URL
