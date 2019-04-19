@@ -2,6 +2,7 @@ import '../models/event.dart';
 import './websocket.dart';
 import 'dart:convert';
 import '../models/bridgeenvs.dart';
+import '../models/session_data.dart';
 
 EventHandler eventHandler = new EventHandler();
 
@@ -13,19 +14,17 @@ class EventHandler{
       return _eventHandler;
     }
 
-
     EventHandler._internal();
 
     initWebSocketConnection() async{
       
-      print(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
-      socket.initCommunication(BridgeEnvs.ENV_GENNY_BRIDGE_VERTEX);
-
+      socket.initCommunication(BridgeEnvs.vertexUrl);
       socket.sendMessage( 
-         new AuthInit("sas").message() 
+         new AuthInit(Session.accessToken).message(),
       );
+      print (new AuthInit(Session.accessToken).message());
     }
-s
+
     String __getAccessToken(){
 
       final String token = null;

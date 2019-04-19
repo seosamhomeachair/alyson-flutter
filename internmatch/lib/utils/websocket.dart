@@ -1,16 +1,7 @@
 import 'dart:core';
-import 'package:flutter/foundation.dart';
-import '../models/event.dart';
 import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
 import './event_handler.dart';
-
-/*main(){
-
-  //var vertexUrl = "wss://bridge-internmatch.outcome-hub.com/frontend/websocket";
-  var vertexUrl = "https://bridge-internmatch.outcome-hub.com/frontend/websocket";
-  socket.initCommunication(vertexUrl);
-}*/
 
 WebSockets socket = new WebSockets();
 
@@ -50,7 +41,7 @@ class WebSockets {
   try {
         print("WebSocket:: Trying to connect to "+ vertexUrl);
         
-        _channel = await IOWebSocketChannel.connect(vertexUrl,headers: {'CONNECTION':'upgrade','UPGRADE':'websocket'});
+        _channel = IOWebSocketChannel.connect(vertexUrl,headers: {'CONNECTION':'upgrade','UPGRADE':'websocket'});
         _channel.stream.listen(_onIncomingMessage);
 
       } catch(e){

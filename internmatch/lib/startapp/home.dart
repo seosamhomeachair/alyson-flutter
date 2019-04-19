@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import '../utils/event_helper.dart';
 import '../utils/event_handler.dart';
+import '../models/session_data.dart';
+
 class Home extends StatelessWidget { 
 
    var token ;
    final eventHelper = new EventHelper();
 
+    @override
+    @mustCallSuper
     initState(){
+      print("Eventhandler:: Initiate Websocket Connection");
       eventHandler.initWebSocketConnection();
     }
     
-   Home({Key key, @required this.token}): super(key:key);
+   Home({Key key}): super(key:key);
 
    @override
     Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class Home extends StatelessWidget {
             child: new Column(
               children: <Widget>[
                 Padding(padding: new EdgeInsets.all(20.5)),
-                new Text("Token: $token",
+                new Text("Token: ${Session.accessToken}",
                 style: new TextStyle(
                   fontWeight: FontWeight.w700,
                   color: Colors.lightBlue[600],

@@ -15,8 +15,6 @@ class DatabaseHelper{
   static const String tokenTable ="Tokens";
   static const String baseEntityTable ="BaseEntity";
   static const String baseEntityLayoutTable ="BaseEntityLayout";
-  
-  
 
   static final DatabaseHelper instance = new DatabaseHelper.internal();
 

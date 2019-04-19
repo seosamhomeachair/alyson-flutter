@@ -1,4 +1,14 @@
- class BridgeEnvs{
+import "../projectEnv.dart";
+  class  BridgeEnvs{
+
+    static get bridgeUrl{
+      return Project.url+"/api/events/init?url="+Project.url;
+    }
+
+    static get authUrl{
+      return authServerUrl+"/realms/"+realm+"/account";
+    }
+
     static var realm ;
     static var authServerUrl;
     static var sslExternal;
@@ -14,19 +24,19 @@
     static var ENV_SIGNATURE_URL;
 
     static final Map map= {
-    'realm': realm,
-    'auth-server-url': authServerUrl,
-    'ssl-required' : sslExternal,
-    'credentials' : credentialsSecret,
-    'vertx_url' : vertexUrl,
-    'api_url' : apiUrl,
-    'url' : url,
-    'ENV_GENNY_HOST' : ENV_GENNY_HOST,
-    'ENV_GENNY_INITURL': ENV_GENNY_INITURL,
-    'ENV_GENNY_BRIDGE_SERVICE' : ENV_GENNY_BRIDGE_SERVICE,
-    'ENV_GENNY_BRIDGE_EVENTS': ENV_GENNY_BRIDGE_EVENTS,
-    'ENV_GENNY_BRIDGE_VERTEX': ENV_GENNY_BRIDGE_VERTEX,
-    'ENV_SIGNATURE_URL': ENV_SIGNATURE_URL
+    'realm': (val) => realm = val,
+    'auth-server-url': (val) => authServerUrl = val,
+    'ssl-required' : (val) => sslExternal = val,
+    'credentials' : (val) => credentialsSecret = val,
+    'vertx_url' : (val) => vertexUrl = val,
+    'api_url' : (val) => apiUrl = val,
+    'url' : (val) => url = val ,
+    'ENV_GENNY_HOST' : (val) => ENV_GENNY_HOST = val,
+    'ENV_GENNY_INITURL': (val) => ENV_GENNY_INITURL = val,
+    'ENV_GENNY_BRIDGE_SERVICE' : (val) => ENV_GENNY_BRIDGE_SERVICE = val,
+    'ENV_GENNY_BRIDGE_EVENTS': (val) => ENV_GENNY_BRIDGE_EVENTS = val,
+    'ENV_GENNY_BRIDGE_VERTEX': (val) => ENV_GENNY_BRIDGE_VERTEX = val,
+    'ENV_SIGNATURE_URL': (val) => ENV_SIGNATURE_URL = val
     };
   
 }
