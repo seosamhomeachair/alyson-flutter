@@ -17,10 +17,14 @@ class EventHandler{
     EventHandler._internal();
 
     initWebSocketConnection() async{
+
+      print("EventHandler:: Initiate Websocket Connection");
+      await socket.initCommunication(BridgeEnvs.vertexUrl);
       
-      socket.initCommunication(BridgeEnvs.vertexUrl);
+      print("Sending Auth event");
       socket.sendMessage( 
-         new AuthInit(Session.accessToken).message(),
+         //new AuthInit(Session.accessToken).message(),
+         new AuthInit("ss").message(),
       );
       print (new AuthInit(Session.accessToken).message());
     }
@@ -48,7 +52,7 @@ class EventHandler{
 
     handleIncomingMessage(incomingMessage){
 
-      Map message = json.decode(incomingMessage);
+      Map message = incomingMessage;
       //Neeed more to do 
       print (message);
 

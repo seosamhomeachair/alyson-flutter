@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_to_keycloak.dart';
 import '../widgetLibrary/splash_widget.dart';
+import '../models/bridgeenvs.dart';
+import 'home.dart';
 
 class StartApp extends StatefulWidget {
   final Widget child; 
@@ -17,11 +19,13 @@ class _StartAppState extends State<StartApp> {
   void initState(){
       super.initState();
       currentView = new SplashScreen();
+      
+
       new Future.delayed(
-        const Duration(seconds: 5),
-        () => Navigator.push(context, 
-        MaterialPageRoute(builder: (context) => LoginToKeycloak()),
-        ));
+          const Duration(seconds: 5),
+          () => BridgeEnvs.fetchSuccess ? Navigator.push(context, MaterialPageRoute(builder:(context) => Home())) 
+          :Navigator.push(context, MaterialPageRoute(builder:(context) => LoginToKeycloak())) 
+          );  
   } 
 
   @override

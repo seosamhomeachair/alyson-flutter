@@ -23,6 +23,8 @@ import "../projectEnv.dart";
     static var ENV_GENNY_BRIDGE_VERTEX;
     static var ENV_SIGNATURE_URL;
 
+    static bool fetchSuccess = false;
+
     static final Map map= {
     'realm': (val) => realm = val,
     'auth-server-url': (val) => authServerUrl = val,
