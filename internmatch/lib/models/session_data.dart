@@ -1,6 +1,6 @@
+import 'package:flutter_appauth/flutter_appauth.dart';
 class Session{
   static var sessionId;
   static var sessionUser;
-  static var refreshToken;
-  static var accessToken;
+  static AuthorizationTokenResponse tokenResponse; 
 }

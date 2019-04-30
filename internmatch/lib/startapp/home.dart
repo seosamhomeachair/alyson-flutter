@@ -12,19 +12,25 @@ class Home extends StatefulWidget{
 
 class MainHome extends State<Home> { 
 
-   var token ;
+   
    final eventHelper = new EventHelper();
 
     @mustCallSuper  
     initState(){
 
       eventHandler.initWebSocketConnection();
-    }  
+    }   
 
    @override
     Widget build(BuildContext context) {
         return new Scaffold(
-            body: new DetailView("baseEntityDummy")
+          appBar: new AppBar(
+          centerTitle: true,
+          title: Text("Internmatch"),
+          ),
+            body: new Container(
+              child: Text("WelCome, To Internmatch "),
+            )
         );
   }  
 }

@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
@@ -19,6 +20,10 @@ class WebSockets {
   IOWebSocketChannel _channel;
 
   bool _isOn = false;
+
+  
+
+  
 
   /*CLoses the webSocket Communication*/
   reset(){
@@ -94,6 +99,13 @@ class WebSockets {
   _onIncomingMessage(message){
     _isOn = true;
     print("Receiving form the server");
-    eventHandler.handleIncomingMessage(json.decode(message));
+    print(message);
+   final eMessage = eventHandler.handleIncomingMessage(json.decode(message));
+    print("Decoded Message :: $eMessage");
+   
+    // var encodedMessage = base64Decode(eMessage);
+     //print("Decoded Response.....");
+     //print(encodedMessage);
     }       
+    
 }

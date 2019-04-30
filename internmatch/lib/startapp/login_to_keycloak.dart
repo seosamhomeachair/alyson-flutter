@@ -1,15 +1,13 @@
-
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import '../utils/app_auth_helper.dart';
 import '../models/bridgeenvs.dart';
 import '../models/keycloak_token.dart';
 import '../models/session_data.dart';
 import '../utils/database_helper.dart';
 import '../utils/api_helper.dart';
-import '../widgetLibrary/webview_widget.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'dart:async';
 
 
@@ -20,11 +18,7 @@ class LoginToKeycloak extends StatefulWidget{
 
 }
 
-class KeycloakLogin extends State<LoginToKeycloak>{
- 
-    var _flutterWebviewPlugin = new FlutterWebviewPlugin();
-    var _url;
-
+class KeycloakLogin extends State<LoginToKeycloak>{ 
   //We need to call this function as it initates the State
     @override
     void initState() {
@@ -34,16 +28,17 @@ class KeycloakLogin extends State<LoginToKeycloak>{
     void initLogin() async {
                
       await getEnvFromBridge(BridgeEnvs.bridgeUrl);
-
-      /*initiating keycloack auth*/
-      authKeycloak();
     }
 
     @override
     Widget build(BuildContext context) {
         return new Scaffold(
-              body: new WebView(_url)
-            );
+          appBar: new AppBar(
+            centerTitle: true,
+            title: Text("Logging to Key Cloak."),
+          ),
+                
+             );
     }
 
     void navigateToApp(){
@@ -53,54 +48,15 @@ class KeycloakLogin extends State<LoginToKeycloak>{
       Navigator.push(context, MaterialPageRoute(builder:(context) => Home() ));
     }
 
-    /*disposes webviewplugin and webview scaffold*/
-    @override
-    void dispose(){
-      _flutterWebviewPlugin.cleanCookies();
-      _urlChangeListener.cancel();
-      _flutterWebviewPlugin.close();
-      _flutterWebviewPlugin.dispose();
-      print("Webview Resources Disposed...");
-      super.dispose();     
-    }
     
        /*else{
          print("Force Enter to AppHome");
          navigateToApp();
        }*/
-
-    StreamSubscription<String> _urlChangeListener;
-    Queue <String> urlQueue = new Queue<String>();
-
-    void authKeycloak () async{  
-
-        print("Initiating Keycloack Login");
-
-        setState(() {
-          _url = BridgeEnvs.ENV_GENNY_INITURL;
-        });
-
-        
-        /* listening to eny url change in the browser */
-       _urlChangeListener = _flutterWebviewPlugin.onUrlChanged.listen((String url){            
-              RegExp regExp = new RegExp("code=(.*)");
-              navigateToApp();
-              String code = regExp.firstMatch(url)?.group(1);
-              if(code != null){
-                getKeycloakSession(code);
-              }
-        });
-    }
-
-    getKeycloakSession(code){
-        print("code::: $code");
-        /* 
-        
-        Need to decode code and retrieve session information 
-        
-        
-        */
-
+    authKeycloak() async{
+      
+        Session.tokenResponse = await AppAuthHelper.authTokenResponse();
+        print("Token :: ${Session.tokenResponse.accessToken}");
         navigateToApp();
     }
 
@@ -109,13 +65,15 @@ class KeycloakLogin extends State<LoginToKeycloak>{
 
         print("Fetching Envs From :::: " + endPoint);
         /* getting json object from */
-        await BridgeApiHelper.makeApiRequest(endPoint).then((data){
+        await bridgeApiHelper.makeApiRequest(endPoint).then((data){
 
             /* Looping through and saving the necessary envs value */
-            BridgeEnvs.map.forEach((key,val) => {            
-              BridgeEnvs.map[key](data[key]),
-          });
+            BridgeEnvs.map.forEach((key,val) =>
+            BridgeEnvs.map[key](data[key]),
+          );
+          
             BridgeEnvs.fetchSuccess = true;
+            authKeycloak();
       });
     }
 
@@ -123,7 +81,7 @@ class KeycloakLogin extends State<LoginToKeycloak>{
     void storeTokenInDB(String token) async {
 
       var db = new DatabaseHelper();  
-      Session.accessToken = await db.saveToken(new KeyCloakToken("$token"));
+      //Session.tokenResponse.accessToken = await db.saveToken(new KeyCloakToken("$token"));
     } 
 
     void fetchTokenFromDB() async{
@@ -132,6 +90,3 @@ class KeycloakLogin extends State<LoginToKeycloak>{
     }
 
 }
-
-
-

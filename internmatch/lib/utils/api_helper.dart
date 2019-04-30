@@ -2,7 +2,7 @@
     import 'package:http/http.dart' as http;
     import 'dart:convert';
 
-    BridgeApiHelperClass BridgeApiHelper = new BridgeApiHelperClass();
+    BridgeApiHelperClass bridgeApiHelper = new BridgeApiHelperClass();
 
     class ApiHelper{
 
