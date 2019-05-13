@@ -1,4 +1,4 @@
-/*  import 'dart:typed_data';
+import 'dart:typed_data';
 import 'dart:convert';
 class Compression {
 
@@ -7,22 +7,29 @@ class Compression {
  String incomingByteArray;
 //   }
 
+codecFunc(message){
+
+      incomingByteArray = convertDataURIToBinary( message );
+      
+      var decompressedDataArray = message.decompress( incomingByteArray );
+      print(decompressedDataArray);
+
+      /*var decompressedStr = utf8.decode( decompressedDataArray );
+
+      const deeplyParsed = deepParseJson( decompressedStr );
+
+      callback( deeplyParsed );*/
+
+  }
+    
     
 //   // Decompress the data
 //   decode(){
-_incomingCompressedMessage(message) async {
-    print("Comporession being used.");// eslint-disable-line
-   codecFunc(message).then((result) => {
-      incomingByteArray = convertDataURIToBinary( message );
-      const decompressedDataArray = message.decompress( incomingByteArray );
-      const decompressedStr = new TextDecoder( 'utf-8' ).decode( decompressedDataArray );
-      var decoded = utf8.decode( decompressedStr );
-      const deeplyParsed = deepParseJson( decoded );
 
-      callback( deeplyParsed );
+decompressByteArrayMessage(message) async {
 
-  });  
-    
+    print("Decompressing message : $message");// eslint-disable-line
+    codecFunc(message);
   }
 
   String convertDataURIToBinary( base64 ) {
@@ -40,4 +47,3 @@ _incomingCompressedMessage(message) async {
 }
  }
 
- */

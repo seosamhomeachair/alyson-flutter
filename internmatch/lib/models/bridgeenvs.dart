@@ -7,6 +7,7 @@ import "../projectEnv.dart";
 
     static get authUrl{
       return authServerUrl+"/realms/"+realm+"/.well-known/openid-configuration";
+      //return authServerUrl+"/realms/"+realm+"/protocol/openid-connect/token";
     }
 
     static var realm ;
