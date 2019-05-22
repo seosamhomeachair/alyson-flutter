@@ -42,7 +42,6 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
 
 5. Set up your local login credentials for the stores.
   * *Android*: 
-
         **Collect your Google credentials.** Follow the steps:
         1. Open the [Google Play Console][https://play.google.com/apps/publish/]
         2. Click the *Settings* menu entry, followed by *API access*
