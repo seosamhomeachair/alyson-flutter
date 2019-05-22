@@ -41,31 +41,33 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
   *   *iOS*  : *app_identifier* in [project]/ios/Appfile also matches Info.plist’s bundle                  identifier. Fill in apple_id, itc_team_id, team_id with your respective                    account info.
 
 5. Set up your local login credentials for the stores.
-  * *Android*: 
+  * Android: 
 #### Collect your Google credentials. Follow the steps:
   1. Open the [Google Play Console](https://play.google.com/apps/publish/)
 
-  2. Click the **Settings** menu entry, followed by *API access*
+  2. Click the **Settings** menu entry, followed by **API access**
 
-  3. Click the *CREATE SERVICE ACCOUNT* button
+  3. Click the **CREATE SERVICE ACCOUNT** button
 
-  4. Follow the *Google Developers Console* link in the dialog, which opens a new tab/window:
-      * Click the *CREATE SERVICE ACCOUNT* button at the top of the *Google Developers   Console*
+  4. Follow the **Google Developers Console** link in the dialog, which opens a new tab/window:
+      * Click the **CREATE SERVICE ACCOUNT** button at the top of the **Google Developers   Console**
       * Provide a 
-        > Service account name* 
-      * Click *Select a role* and choose *Service Accounts > Service Account User*
-      * Check the *Furnish a new private key* 
+        > Service account name 
+      * Click **Select a role** and choose **Service Accounts > Service Account User**
+      * Check the **Furnish a new private key** 
         > checkbox
-      * Make sure *JSON* is selected as the 
+      * Make sure **JSON** is selected as the 
         > Key type
-      * Click *SAVE* to close the dialog  
+      * Click **SAVE** to close the dialog  
       * Make a note of the file name of the JSON file downloaded to your computer
 
-  5. Back on the *Google Play Console*, click *DONE* to close the dialog 
+  5. Back on the **Google Play Console**, click *DONE* to close the dialog 
 
-  6. Click on *Grant Access* for the newly added service account  
+  6. Click on **Grant Access** for the newly added service account  
 
-  7. Choose Release Manager (or alternatively Project Lead) from the Role dropdown.           (Note that choosing Release Manager grants access to the production track and            all other tracks. Choosing Project Lead grants access to update all tracks               except the production track.) 
+  7. Choose Release Manager (or alternatively Project Lead) from the Role dropdown.           (Note that choosing Release Manager grants access to the production track and              all other tracks. Choosing Project Lead grants access to update all tracks                 except the production track.) 
+
+  8. Click **ADD USER** to close the dialog
  
 
 
