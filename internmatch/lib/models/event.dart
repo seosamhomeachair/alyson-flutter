@@ -15,7 +15,7 @@ abstract class IncomingEvent extends Event{
 }
 
 abstract class OutgoingEvent extends Event{
-     message ()=> {
+     event ()=> {
        
         'event_type': this._eventType,
         'msg_type': this._msgType,

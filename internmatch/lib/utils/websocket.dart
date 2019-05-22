@@ -1,6 +1,6 @@
 import 'dart:core';
+
 import 'package:flutter/foundation.dart';
-import 'package:internmatch/models/session_data.dart';
 import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
 import './event_handler.dart';
@@ -17,21 +17,21 @@ class WebSockets {
   WebSockets._internal();
 
   /*websocket ope channel */
-  IOWebSocketChannel _channel;
+  IOWebSocketChannel _channel ;
 
-  //WebSockets.listen();
+  var channel1;
 
   bool _isOn = false;
 
   /*CLoses the webSocket Communication*/
-  reset() {
-    if (_channel != null) {
-      if (_channel.sink != null) {
-        _channel.sink.close();
-        _isOn = false;
-      }
-    }
-  }
+  // reset() {
+  //   if (_channel != null) {
+  //     if (_channel.sink != null) {
+  //       _channel.sink.close();
+  //       _isOn = false;
+  //     }
+  //   }
+  // }
 
   /* Listener */
   /* List of methods to be called when a new message*/
@@ -44,19 +44,17 @@ class WebSockets {
   initCommunication(vertexUrl) async {
     try {
       String socketUrl = getUrlForWebSocket(vertexUrl);
-      print("WebSocket:: Trying to connect to $socketUrl");
-      _channel = IOWebSocketChannel.connect(socketUrl);
-      var webSocketChannel =
-          Session.tokenResponse.tokenAdditionalParameters['session_state'];
-     _channel.sink.add(webSocketChannel);
-
-      /* common handler to receiving message from server */
+      _channel = IOWebSocketChannel.connect(socketUrl);      
       _channel.stream.listen(_onIncomingMessage);
+      
+
+      /* common handler to receiving message from server */ 
     } catch (e) {
       print("WebSocket: Unable to make a connection with :" + vertexUrl);
       print("Exception logs: " + e.toString());
     }
   }
+
 
   /*This method customized http: vertexurl to wss*/
   String getUrlForWebSocket(vertexUrl) {
@@ -74,63 +72,41 @@ class WebSockets {
     }
   }
 
-/* Send Resgister Event message to the vertex*/
-  sendRegisterMessage() {
-    if (_channel != null) {
-      if (_channel.sink != null) {
-        // WebSockets.listen();
-        // print("Listening to WebSokcet ::");
-        var msg = {
-          'type': 'register',
-          'address':
-              '${Session.tokenResponse.tokenAdditionalParameters['session_state']}',
-          'headers': {},
-        };
-        print("Register Event MSG Length :: ${msg.length}");
-        print("Registering Event sending to server :: $msg");
-        _channel.sink.add(json.encode(msg));
-      }
-    }
-  }
-
   /* Send Auth_INIT Event message to the vertex*/
   sendMessage(message) {
     if (_channel != null) {
-      if (_channel.sink != null) {
-        var msg = {
-          'type': 'send',
-          'address': 'address.inbound',
-          'headers': {},
-          'body': {'data': message}
-        };
-        print("New Auth_INIT Event MSG Length :: ${msg.length}");
-        print("Auth_INIT sending to server :: $msg");
-        _channel.sink.add(json.encode(msg));
+      if (_channel != null) {
+        print("WebSocket: Sending Message ::: $message");
+        _channel.sink.add(message);
       }
     }
   }
 
   /*Listenes for incomming message from server */
-  addListener(Function callback) {
-    _listener.add(callback);
+  registerListener() {
+    _channel.stream.listen(_onIncomingMessage);
+  }
+
+  registerAddressToListener(address){
+    
+  }
+
+  registerAddressToSender(address){
+
   }
 
   /*Remove for message from server */
   removeListener(Function callback) {
     _listener.remove(callback);
   }
-
   /*invoked each time when receiving the incoming message form the server*/
   _onIncomingMessage(message) {
     _isOn = true;
     print("Receiving form the server");
-    print(message);
-    var webSocketChannel =
-          Session.tokenResponse.tokenAdditionalParameters['session_state'];
-      _channel.sink.add(webSocketChannel);
-      var eMessage = eventHandler.handleIncomingMessage(message);
-      // var serverData = latin1.decode(eMessage);
-      print("Server Data ::: $eMessage");
+    var serverData = latin1.decode(message);
+    print("Server Data ::: $serverData");
+    eventHandler.handleIncomingMessage(serverData);
+
     }
   }
 

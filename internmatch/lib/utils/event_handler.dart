@@ -1,13 +1,10 @@
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
-import 'package:web_socket_channel/io.dart';
 
 import '../models/event.dart';
 import './websocket.dart';
 import 'dart:convert';
 import '../models/bridgeenvs.dart';
 import '../models/session_data.dart';
+import './message_wrapper.dart';
 
 
 EventHandler eventHandler = new EventHandler();
@@ -25,18 +22,28 @@ class EventHandler {
 
     print(
         "Length of Access Token:: ${Session.tokenResponse.accessToken.length}");
-    print("Sending Auth event");
-    socket.sendRegisterMessage();
+
     socket.sendMessage(
-      new AuthInit(Session.tokenResponse.accessToken).message(),
-    );
+     json.encode(message.eventMessage("address.inbound",authInit(this.__getAccessToken()).event())),
+     );
   }
 
   String __getAccessToken() {
-    final String token = null;
-
+    return Session.tokenResponse.accessToken;
     //Get token form database;
-    return token;
+  }
+
+  sendPing(){
+      socket.sendMessage(json.encode(message.pingMessage())) ;
+  }
+
+  registerWebsocket(){
+      socket.sendMessage(json.encode(message.registerMessage(this.__getSessionState()))) ;
+
+  }
+
+  String __getSessionState(){
+    return Session.tokenResponse.tokenAdditionalParameters['session_state'];
   }
 
   sendEvent({event, sendWithToken, eventType, data}) {
@@ -49,38 +56,22 @@ class EventHandler {
         : eventObject = event(eventType, data);
 
     print('sending event ::' + eventObject.toString());
-    socket.sendMessage(eventObject.message());
+    this.sendPing();
+    socket.sendMessage(
+      json.encode(
+        [message.eventMessage('address.inbound',eventObject.event())]
+        )
+    );
   }
 
   handleIncomingMessage(incomingMessage) {
-    IOWebSocketChannel _channel;
-    _channel =
-          Session.tokenResponse.tokenAdditionalParameters['session_state'];
-         // _channel.sink.add(webSocketChannel);
-     new StreamBuilder(
-        stream: _channel.stream,
-        initialData: 45 ,
-        builder: (context, snapshot)  {
-         if(!snapshot.hasData){
-           print("Data from Backend :: $snapshot");
-         }
-         else if(snapshot.hasError){
-           print(snapshot.hasError);
-         }
-        }
-            
-      );
-    /* As messages are sent as a String
-        let's deserialize it to get the corresponding
-        JSON object */
 
-   /*  List<dynamic> message = incomingMessage;
-    //Neeed more to do
-       print(message);
-       return message; */
+    
+    var jsonMessage = json.decode(incomingMessage);
+    print("EventHandler :: $jsonMessage");
    /* List<dynamic> data = incomingMessage;
     //String jsonString = latin1.decode(incomingMessage);
-    //var jsonMessage = json.decode(jsonString);
+    
     var sessionState = Session.tokenResponse.tokenAdditionalParameters['session_state'];
     print("Decoded Message :: $data"); */
 

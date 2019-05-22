@@ -1,32 +1,28 @@
- 
- 
- 
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class Test extends StatelessWidget{
+import 'dart:convert';
 
-    @override
-    initState(){
+import 'package:web_socket_channel/io.dart';
 
-    }
-    
-     @override
-  Widget build(BuildContext context) {
-    
-    return new Scaffold(
-      body: Test()
-    );
-  }
+void main()async {
+  final ping = {'type':'ping'};
+  
+  var url = "ws://bridge.genny.life/frontend/websocket";
+  var msg = json.encode(ping);
+  var socket = IOWebSocketChannel.connect(Uri.parse(url));
+  socket.stream.listen(_listener);
+  socket.sink.add(msg);
 
-   Test(){
-   var token = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJwU180dHhEMTJpUVJIZlJaLURRLTFaRWlGS3pWYkttVVFFWjdqOUdPaTZVIn0.eyJqdGkiOiI5Y2E5OTkzZS01NjU5LTQwMzgtOTU2ZC03OGQzNTc3ODQyZmYiLCJleHAiOjE1NTcyNTA4MzUsIm5iZiI6MCwiaWF0IjoxNTU3MjA3NjM1LCJpc3MiOiJodHRwczovL2JvdW5jZXItc3RhZ2luZy5vdXRjb21lLWh1Yi5jb20vYXV0aC9yZWFsbXMvaW50ZXJubWF0Y2giLCJhdWQiOiJpbnRlcm5tYXRjaCIsInN1YiI6IjViZWQ4ZjAzLWVjNDQtNDg4Zi1iYjc2LTYyOTM4MjY2MmM4YiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImludGVybm1hdGNoIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiNTQwMDdjYTMtZGE0NS00OWZkLTk1ZWMtYWYzYWYxNTNmZjIyIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2ludGVybm1hdGNoLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9hbHlzb24uZ2VubnkubGlmZSIsImludGVybm1hdGNoLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9tZXNzYWdlczo4MDgwIiwiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiaHR0cHM6Ly9pbnRlcm5tYXRjaC1zdGFnaW5nLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9hcGktc2VydmljZS5nZW5ueS5saWZlIiwiaHR0cDovL2FseXNvbjMuZ2VubnkubGlmZSIsImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCIsImh0dHA6Ly9hbHlzb243Lmdlbm55LmxpZmUiLCJodHRwOi8vYnJpZGdlLmdlbm55LmxpZmUiLCJodHRwOi8vc29jaWFsOjgwODAiLCJodHRwOi8vYXBpLWludGVybm1hdGNoLm91dGNvbWUtaHViLmNvbSIsImh0dHBzOi8vYXBwMy1pbnRlcm5tYXRjaC5vdXRjb21lLWh1Yi5jb20iLCJodHRwOi8vbG9jYWxob3N0OjgyODAiLCJodHRwOi8vcXdhbmRhLXN0YWdpbmctaW50ZXJucy5vdXRjb21lLWh1Yi5jb20iLCJodHRwczovL2FwaS1pbnRlcm5tYXRjaC1zdGFnaW5nLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9pbnRlcm5tYXRjaC5nZW5ueS5saWZlIiwiaHR0cHM6Ly9hcHAzLWludGVybm1hdGNoLXN0YWdpbmcub3V0Y29tZS1odWIuY29tIiwiaHR0cHM6Ly9hcGktaW50ZXJubWF0Y2gub3V0Y29tZS1odWIuY29tIiwiaHR0cHM6Ly9xd2FuZGEtc3RhZ2luZy1pbnRlcm5zLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9icmlkZ2U6ODA4OCIsImh0dHA6Ly9ydWxlc3NlcnZpY2U6ODA4MCIsImh0dHA6Ly9hbHlzb24uZ2VubnkubGlmZTozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJuYW1lIjoiTmVlbGt1bWFyIFBhdGVsIiwicHJlZmVycmVkX3VzZXJuYW1lIjoibmVlbHA5Njk2QGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJOZWVsa3VtYXIiLCJmYW1pbHlfbmFtZSI6IlBhdGVsIiwiZW1haWwiOiJuZWVscDk2OTZAZ21haWwuY29tIn0.Gcz7idNLEqw_sftIB8JGFMyHTVP9kdFgBAiPC9ooXLS7xFb3wF5AVPIL-3vMS-RkoBB6Y2pissdmXpbejZnytseI1BNBfx9yJRNJG-NqwoPm374T44smh7K2kaCkhA9ZAQtAdZ4qvXIHqrG0Vr_Ugo97odCvls2xNqJaZq5k0vdQ7ohqf3E0Ed9J456ZFjaMcw4Y0VgGBzjG0zP7HwtsirTwJlDSf9xMS0TFZcPJhKeu-XY3mBY2vwqDjlE5s3C7SMnS_ctkbkTR1m46xKvDkRNGAGGy_mRVorZ0sEUS_y1YJFjv1OI4aDRn1FNz8i6EEwHMvBEMdgSWoG-yTaHa7A";
-      print("EventHandler:: Initiate Websocket Connection");
-      print("Length of Token  :: ${token.length}");
-      print("Dummy Token ::: $token");
-
-  var printedToken ="eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJwU180dHhEMTJpUVJIZlJaLURRLTFaRWlGS3pWYkttVVFFWjdqOUdPaTZVIn0.eyJqdGkiOiI5Y2E5OTkzZS01NjU5LTQwMzgtOTU2ZC03OGQzNTc3ODQyZmYiLCJleHAiOjE1NTcyNTA4MzUsIm5iZiI6MCwiaWF0IjoxNTU3MjA3NjM1LCJpc3MiOiJodHRwczovL2JvdW5jZXItc3RhZ2luZy5vdXRjb21lLWh1Yi5jb20vYXV0aC9yZWFsbXMvaW50ZXJubWF0Y2giLCJhdWQiOiJpbnRlcm5tYXRjaCIsInN1YiI6IjViZWQ4ZjAzLWVjNDQtNDg4Zi1iYjc2LTYyOTM4MjY2MmM4YiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImludGVybm1hdGNoIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiNTQwMDdjYTMtZGE0NS00OWZkLTk1ZWMtYWYzYWYxNTNmZjIyIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2ludGVybm1hdGNoLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9hbHlzb24uZ2VubnkubGlmZSIsImludGVybm1hdGNoLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9tZXNzYWdlczo4MDgwIiwiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiaHR0cHM6Ly9pbnRlcm5tYXRjaC1zdGFnaW5nLm91dGNvbWUtaHViLmNvbSIsImh0dHA6Ly9hcGktc2VydmljZS5nZW5ueS5saWZlIiwiaHR0cDovL2FseXNvbjMuZ2VubnkubGlmZSIsImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCIsImh0dHA6Ly9hbHlzb243Lmdlbm55LmxpZmUiLCJodHRwOi8vYnJpZGd";
-      print("After Printing Length = ${printedToken.length}" );
-      
-   }
 }
+
+_listener(msg){
+  print(msg.toString());
+  print((latin1.decode(msg)).toString());
+}
+
+
+
+
+       
+      
+        
+  

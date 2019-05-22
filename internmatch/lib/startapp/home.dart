@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:internmatch/utils/app_auth_helper.dart';
-import 'package:internmatch/widgetLibrary/detailView_widget.dart';
 import '../utils/event_helper.dart';
 import '../utils/event_handler.dart';
-import '../utils/app_auth_helper.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -30,7 +26,7 @@ class MainHome extends State<Home> {
         child: Center(
           child: RaisedButton(
             child: Text("click here"),
-            onPressed: (() => {}),
+            onPressed: (() => {eventHandler.initWebSocketConnection()}),
           ),
         ),
       ),

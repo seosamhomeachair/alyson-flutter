@@ -1,16 +1,11 @@
-import 'dart:collection';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'dart:io';
 import '../utils/app_auth_helper.dart';
 import '../models/bridgeenvs.dart';
 import '../models/keycloak_token.dart';
 import '../models/session_data.dart';
 import '../utils/database_helper.dart';
 import '../utils/api_helper.dart';
-import 'package:flutter_appauth/flutter_appauth.dart';
-import 'dart:async';
 
 class LoginToKeycloak extends StatefulWidget {
   @override
