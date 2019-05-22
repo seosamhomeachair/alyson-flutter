@@ -14,11 +14,11 @@ class Home extends StatefulWidget {
 class MainHome extends State<Home> {
   final eventHelper = new EventHelper();
 
-  @mustCallSuper
+   /* @mustCallSuper
   initState() {
     eventHandler.initWebSocketConnection();
-  }
-
+  } */
+ 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -27,12 +27,35 @@ class MainHome extends State<Home> {
         title: Text("Internmatch"),
       ),
       body: new Container(
-        child: Center(
-          child: RaisedButton(
-            child: Text("click here"),
-            onPressed: (() => {}),
-          ),
-        ),
+       constraints: BoxConstraints.expand(),
+       color: Colors.tealAccent,
+       child: Stack (
+         alignment: AlignmentDirectional.center,
+         children: <Widget>[
+           Container(
+                height: 200.0,
+                width: 200.0,
+                color: Colors.red,
+              ),
+              Container(
+                height: 150.0,
+                width: 150.0,
+                color: Colors.blue,
+              ),
+              Container(
+                height: 100.0,
+                width: 100.0,
+                color: Colors.green,
+              ),
+              Container(
+                height: 50.0,
+                width: 50.0,
+                color: Colors.yellow,
+              ),
+         ],
+       )
+
+       
       ),
     );
   }

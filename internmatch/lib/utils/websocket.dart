@@ -46,10 +46,10 @@ class WebSockets {
       String socketUrl = getUrlForWebSocket(vertexUrl);
       print("WebSocket:: Trying to connect to $socketUrl");
       _channel = IOWebSocketChannel.connect(socketUrl);
-      var webSocketChannel =
+     /*  var webSocketChannel =
           Session.tokenResponse.tokenAdditionalParameters['session_state'];
      _channel.sink.add(webSocketChannel);
-
+ */
       /* common handler to receiving message from server */
       _channel.stream.listen(_onIncomingMessage);
     } catch (e) {
@@ -82,7 +82,7 @@ class WebSockets {
         // print("Listening to WebSokcet ::");
         var msg = {
           'type': 'register',
-          'address':
+          'address': 
               '${Session.tokenResponse.tokenAdditionalParameters['session_state']}',
           'headers': {},
         };
@@ -129,8 +129,8 @@ class WebSockets {
           Session.tokenResponse.tokenAdditionalParameters['session_state'];
       _channel.sink.add(webSocketChannel);
       var eMessage = eventHandler.handleIncomingMessage(message);
-      // var serverData = latin1.decode(eMessage);
-      print("Server Data ::: $eMessage");
+      var serverData = latin1.decode(eMessage);
+      print("Server Data ::: $serverData");
     }
   }
 
