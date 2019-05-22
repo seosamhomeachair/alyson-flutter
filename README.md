@@ -1,7 +1,7 @@
 # FlutterApp
 ## Flutter App for Internmatch
 
-##### Dart Packages used in this project are mentioned in pubspec.yml file:
+#### Dart Packages used in this project are mentioned in pubspec.yml file:
 1. http | http 0.12.0+2
 
 This package contains a set of high-level functions and classes that make it easy to consume HTTP resources. It's platform-independent, and can be used on both the command-line and the browser.
@@ -42,10 +42,10 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
 
 5. Set up your local login credentials for the stores.
   * *Android*: 
-##### Collect your Google credentials. Follow the steps:
-  1. Open the [Google Play Console][https://play.google.com/apps/publish/]
+#### Collect your Google credentials. Follow the steps:
+  1. Open the [Google Play Console](https://play.google.com/apps/publish/)
 
-  2. Click the *Settings* menu entry, followed by *API access*
+  2. Click the **Settings** menu entry, followed by *API access*
 
   3. Click the *CREATE SERVICE ACCOUNT* button
 
