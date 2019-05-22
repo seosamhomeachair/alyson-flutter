@@ -18,10 +18,11 @@ SQLite plugin for Flutter. Supports both iOS and Android.
 3. Flutter AppAuth Plugin | flutter_appauth 0.2.1+1
 
 A Flutter bridge for AppAuth (https://appauth.io) used authenticating and authorizing users. Note that AppAuth also supports the PKCE extension that is required some providers so this plugin should work with them.
+
 ---
 ## Continuous Delivery using fastlane with Flutter
 
-> Local setup
+### Local setup
 
 1. Install fastlane **sudo gem install fastlane** or __brew cask install fastlane__.
 
@@ -46,7 +47,7 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
         1. Open the [Google Play Console][https://play.google.com/apps/publish/]
         2. Click the *Settings* menu entry, followed by *API access*
         3. Click the *CREATE SERVICE ACCOUNT* button
-        4. Follow the *Google Developers Console* link in the dialog, which opens a new tab/      window:
+        4. Follow the *Google Developers Console* link in the dialog, which opens a new tab/ window:
             * Click the *CREATE SERVICE ACCOUNT* button at the top of the *Google Developers   Console*
             * Provide a 
                 > Service account name* 
