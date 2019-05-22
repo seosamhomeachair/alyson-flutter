@@ -68,6 +68,13 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
   7. Choose Release Manager (or alternatively Project Lead) from the Role dropdown.           (Note that choosing Release Manager grants access to the production track and              all other tracks. Choosing Project Lead grants access to update all tracks                 except the production track.) 
 
   8. Click **ADD USER** to close the dialog
+
+#### Configure supply
+
+Edit your fastlane/Appfile and change the json_key_file line to have the path to your credentials file:
+
+`json_key_file` "/path/to/your/downloaded/key.json"
+
  
 
 
