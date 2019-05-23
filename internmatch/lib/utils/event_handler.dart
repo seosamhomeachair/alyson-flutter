@@ -24,6 +24,7 @@ class EventHandler {
         "Length of Access Token:: ${Session.tokenResponse.accessToken.length}");
 
     this.registerWebsocket();
+    this.sendAuth();
   
   }
 

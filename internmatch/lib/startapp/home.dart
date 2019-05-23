@@ -10,11 +10,11 @@ class Home extends StatefulWidget {
 class MainHome extends State<Home> {
   final eventHelper = new EventHelper();
 
-  @mustCallSuper
+   /* @mustCallSuper
   initState() {
     eventHandler.initWebSocketConnection();
-  }
-
+  } */
+ 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
