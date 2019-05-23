@@ -15,7 +15,7 @@ abstract class IncomingEvent extends Event{
 }
 
 abstract class OutgoingEvent extends Event{
-     event ()=> {
+     eventMsg () =>  {
        
         'event_type': this._eventType,
         'msg_type': this._msgType,
@@ -28,7 +28,7 @@ abstract class OutgoingEvent extends Event{
 
 /*Button CLick Event*/
 /*------------------------------------------------*/
-buttonClickEvent(eventType,data,token) =>  new ButtonClickEvent(eventType,data,token);
+buttonClickEvent({eventType,data,token,items,beCode}) =>  new ButtonClickEvent(eventType,data,token);
 
 class ButtonClickEvent extends OutgoingEvent{
 
@@ -43,7 +43,7 @@ class ButtonClickEvent extends OutgoingEvent{
 
 /* Ask Back */
 /*------------------------------------------------*/
-answerEvent(items,token) => new AnswerEvents(items,token);
+answerEvent({eventType,data,token,items,beCode}) => new AnswerEvents(items,token);
 
 class AnswerEvents extends OutgoingEvent{
 
@@ -57,22 +57,20 @@ class AnswerEvents extends OutgoingEvent{
 
 /* Auth Events */
 /*------------------------------------------------*/
-authInit(token) => new AuthInit(token);
+authInit({eventType,data,token,items,beCode}) => new AuthInit(token);
 
 
 class AuthInit extends OutgoingEvent{
   
     AuthInit(token){
-      {
       this._eventType = 'AUTH_INIT';
       this._msgType = 'EVT_MSG';
       this._token = token;
       this._data = {'code' :'AUTH_INIT'};
-      }
     }
 }
 
-redirectReturn(token) => new RedirectReturn(token);
+redirectReturn({eventType,data,token,items,beCode}) => new RedirectReturn(token);
 
 class RedirectReturn extends OutgoingEvent{
 
@@ -86,7 +84,7 @@ class RedirectReturn extends OutgoingEvent{
     }
 }
 
-sendCode(eventType, data, token ) => new SendCode(eventType, data, token ).message;
+sendCode({eventType,data,token,items,beCode}) => new SendCode(eventType, data, token );
 
 class SendCode extends OutgoingEvent{
 
@@ -96,11 +94,9 @@ class SendCode extends OutgoingEvent{
       this._token = token;
       this._data = data;
     }
-
-    message () => {this._eventType };
 }
 
-logOut(eventType, data, token ) => LogOut(eventType, data, token );
+logOut({eventType,data,token,items,beCode}) => LogOut(eventType, data, token );
 
 class LogOut extends OutgoingEvent{
 
@@ -115,7 +111,7 @@ class LogOut extends OutgoingEvent{
 /*Bucket Event*/
 /*------------------------------------------------*/
 
-bucketDropEvent(data, token) =>new BucketDropEvent(data, token);
+bucketDropEvent({eventType,data,token,items,beCode}) =>new BucketDropEvent(data, token);
 
 class BucketDropEvent extends OutgoingEvent{
 
@@ -130,7 +126,7 @@ class BucketDropEvent extends OutgoingEvent{
 
 /*Cache miss Event*/
 /*------------------------------------------------*/
-cacheMissing ( beCode, token) => new CacheMissing ( beCode, token);
+cacheMissing ({eventType,data,token,items,beCode}) => new CacheMissing ( beCode, token);
 
 class CacheMissing extends OutgoingEvent{
 
@@ -144,7 +140,7 @@ class CacheMissing extends OutgoingEvent{
 
     }
 
-    message ()=> {
+    eventMsg ()=> {
        
         'event_type': this._eventType,
         'msg_type': this._msgType,
@@ -158,7 +154,7 @@ class CacheMissing extends OutgoingEvent{
 
 /*Form Submit*/
 /*------------------------------------------------*/
-formSubmit ( data, token ) => new FormSubmit ( data, token );
+formSubmit ({eventType,data,token,items,beCode}) => new FormSubmit ( data, token );
 
 class FormSubmit extends OutgoingEvent{
 
@@ -172,7 +168,7 @@ class FormSubmit extends OutgoingEvent{
 
 /*GPS Data*/
 /*------------------------------------------------*/
-gpsData ( items, token ) => new GPSData ( items, token );
+gpsData ({eventType,data,token,items,beCode}) => new GPSData ( items, token );
 
 class GPSData extends OutgoingEvent{
 
@@ -186,7 +182,7 @@ class GPSData extends OutgoingEvent{
 
 /*Search Data*/
 /*------------------------------------------------*/
-search(data,token) => new Search(data,token);
+search({eventType,data,token,items,beCode}) => new Search(data,token);
 
 class Search extends OutgoingEvent{
 
@@ -198,12 +194,12 @@ class Search extends OutgoingEvent{
     }
 }
 
-tvEvent(event, data,token) => new TvEvent(event, data,token);
+tvEvent({eventType,data,token,items,beCode}) => new TvEvent(eventType, data,token);
 
 class TvEvent extends OutgoingEvent{
 
-    TvEvent(event, data,token){
-      this._eventType = event;
+    TvEvent(eventType, data,token){
+      this._eventType = eventType;
       this._msgType = 'EVT_MSG';
       this._token = token;
       this._data = data;
@@ -236,7 +232,7 @@ class Answer extends IncomingEvent{
 
 /*Incoming Ask  */
 /*----------------------------------------*/
-ask(messgae) => new Ask(messgae);
+ask(message) => new Ask(message);
 
 class Ask extends IncomingEvent{
 

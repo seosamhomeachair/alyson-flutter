@@ -44,10 +44,8 @@ class WebSockets {
   initCommunication(vertexUrl) async {
     try {
       String socketUrl = getUrlForWebSocket(vertexUrl);
-      _channel = IOWebSocketChannel.connect(socketUrl);      
+      _channel = IOWebSocketChannel.connect(socketUrl, pingInterval: new Duration(seconds:5));      
       _channel.stream.listen(_onIncomingMessage);
-      
-
       /* common handler to receiving message from server */ 
     } catch (e) {
       print("WebSocket: Unable to make a connection with :" + vertexUrl);

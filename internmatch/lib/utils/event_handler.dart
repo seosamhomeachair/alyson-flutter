@@ -23,9 +23,8 @@ class EventHandler {
     print(
         "Length of Access Token:: ${Session.tokenResponse.accessToken.length}");
 
-    socket.sendMessage(
-     json.encode(message.eventMessage("address.inbound",authInit(this.__getAccessToken()).event())),
-     );
+    this.registerWebsocket();
+  
   }
 
   String __getAccessToken() {
@@ -39,27 +38,31 @@ class EventHandler {
 
   registerWebsocket(){
       socket.sendMessage(json.encode(message.registerMessage(this.__getSessionState()))) ;
+  }
 
+  sendAuth(){
+      this.sendEvent(event:authInit,sendWithToken:true);
   }
 
   String __getSessionState(){
     return Session.tokenResponse.tokenAdditionalParameters['session_state'];
   }
 
-  sendEvent({event, sendWithToken, eventType, data}) {
+  sendEvent({event, sendWithToken,eventType,data,items,beCode}) {
     // generate Event
-    final token = this.__getAccessToken();
+    var accessToken;
     OutgoingEvent eventObject;
 
-    sendWithToken
-        ? eventObject = event(eventType, data, token)
-        : eventObject = event(eventType, data);
+    if(sendWithToken){
+        accessToken = this.__getAccessToken();
+    } 
 
-    print('sending event ::' + eventObject.toString());
-    this.sendPing();
+    eventObject = event(eventType:eventType,data:data,token:accessToken,items:items,beCode:beCode);
+    final eventMessage = eventObject.eventMsg().toString();
+    print('sending event ::' + eventMessage);
     socket.sendMessage(
       json.encode(
-        [message.eventMessage('address.inbound',eventObject.event())]
+        message.eventMessage('address.inbound',eventMessage)
         )
     );
   }

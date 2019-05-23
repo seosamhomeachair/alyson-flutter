@@ -1,28 +1,25 @@
 
 import 'dart:convert';
-
+import './utils/message_wrapper.dart';
 import 'package:web_socket_channel/io.dart';
+import "dart:async";
+import './models/event.dart';
 
-void main()async {
-  final ping = {'type':'ping'};
-  
-  var url = "ws://bridge.genny.life/frontend/websocket";
-  var msg = json.encode(ping);
-  var socket = IOWebSocketChannel.connect(Uri.parse(url));
-  socket.stream.listen(_listener);
-  socket.sink.add(msg);
+void main(){
+    sendEvent(event:sendCode,sendWithToken:false,data:"asas",eventType:"semd");
 
 }
+sendEvent({event, sendWithToken,eventType,data,items,beCode}) {
+    // generate Event
+    var accessToken;
+    OutgoingEvent eventObject;
 
-_listener(msg){
-  print(msg.toString());
-  print((latin1.decode(msg)).toString());
-}
+    if(sendWithToken){
+        accessToken = "asdasd";
+    } 
 
-
-
-
-       
-      
-        
-  
+    eventObject = event(eventType:eventType,data:data,token:accessToken,items:items,beCode:beCode);
+    final eventMessage = eventObject.eventMsg().toString();
+    print('sending event ::' + eventMessage);
+   
+  }
