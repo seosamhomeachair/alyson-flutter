@@ -17,7 +17,7 @@ class WebSockets {
   WebSockets._internal();
 
   /*websocket ope channel */
-  IOWebSocketChannel _channel ;
+  IOWebSocketChannel _channel;
 
   var channel1;
 
@@ -44,15 +44,15 @@ class WebSockets {
   initCommunication(vertexUrl) async {
     try {
       String socketUrl = getUrlForWebSocket(vertexUrl);
-      _channel = IOWebSocketChannel.connect(socketUrl, pingInterval: new Duration(seconds:5));      
+      _channel = IOWebSocketChannel.connect(socketUrl,
+          pingInterval: new Duration(seconds: 5));
       _channel.stream.listen(_onIncomingMessage);
-      /* common handler to receiving message from server */ 
+      /* common handler to receiving message from server */
     } catch (e) {
       print("WebSocket: Unable to make a connection with :" + vertexUrl);
       print("Exception logs: " + e.toString());
     }
   }
-
 
   /*This method customized http: vertexurl to wss*/
   String getUrlForWebSocket(vertexUrl) {
@@ -85,18 +85,15 @@ class WebSockets {
     _channel.stream.listen(_onIncomingMessage);
   }
 
-  registerAddressToListener(address){
-    
-  }
+  registerAddressToListener(address) {}
 
-  registerAddressToSender(address){
-
-  }
+  registerAddressToSender(address) {}
 
   /*Remove for message from server */
   removeListener(Function callback) {
     _listener.remove(callback);
   }
+
   /*invoked each time when receiving the incoming message form the server*/
   _onIncomingMessage(message) {
     _isOn = true;
@@ -104,7 +101,5 @@ class WebSockets {
     var serverData = latin1.decode(message);
     print("Server Data ::: $serverData");
     eventHandler.handleIncomingMessage(serverData);
-
-    }
   }
-
+}

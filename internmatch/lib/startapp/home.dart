@@ -10,11 +10,11 @@ class Home extends StatefulWidget {
 class MainHome extends State<Home> {
   final eventHelper = new EventHelper();
 
-   /* @mustCallSuper
+  /* @mustCallSuper
   initState() {
     eventHandler.initWebSocketConnection();
   } */
- 
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -24,13 +24,18 @@ class MainHome extends State<Home> {
       ),
       body: new Container(
         child: Center(
-          child: RaisedButton(
-            child: Text("click here"),
-            onPressed: (() => {eventHandler.initWebSocketConnection()}),
+          child: RaisedButton(child: Text("Log Out"),
+          onPressed:(){
+            eventHelper.logOut();
+          } ,),
+
+
+
+          // child: RaisedButton(
+          //   child: Text("click here"),
+          //   onPressed: (() => {eventHandler.initWebSocketConnection()}),
           ),
         ),
-      ),
-    );
+      );
   }
- 
 }

@@ -5,7 +5,7 @@ import '../models/bridgeenvs.dart';
 import 'home.dart';
 
 class StartApp extends StatefulWidget {
-  final Widget child; 
+  final Widget child;
 
   StartApp({Key key, this.child}) : super(key: key);
 
@@ -13,26 +13,23 @@ class StartApp extends StatefulWidget {
 }
 
 class _StartAppState extends State<StartApp> {
-
   var currentView;
   @override
-  void initState(){
-      super.initState();
-      currentView = new SplashScreen();
-      
+  void initState() {
+    super.initState();
+    currentView = new SplashScreen();
 
-      new Future.delayed(
-          const Duration(seconds: 5),
-          () => BridgeEnvs.fetchSuccess ? Navigator.push(context, MaterialPageRoute(builder:(context) => Home())) 
-          :Navigator.push(context, MaterialPageRoute(builder:(context) => LoginToKeycloak())) 
-          );  
-  } 
+    new Future.delayed(
+        const Duration(seconds: 5),
+        () => BridgeEnvs.fetchSuccess
+            ? Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Home()))
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginToKeycloak())));
+  }
 
   @override
   Widget build(BuildContext context) {
-    
-    return new Scaffold(
-      body: currentView
-    );
+    return new Scaffold(body: currentView);
   }
 }

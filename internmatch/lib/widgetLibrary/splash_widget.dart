@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import '../projectEnv.dart';
 
 class SplashScreen extends StatelessWidget {
-
-  
   @override
   Widget build(BuildContext context) {
     return Container(
-            decoration: new BoxDecoration(color: new Color(Project.projectColor)),
+      decoration: new BoxDecoration(color: new Color(Project.projectColor)),
       alignment: Alignment.center,
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
